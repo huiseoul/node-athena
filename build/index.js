@@ -4,6 +4,8 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws = require("aws-sdk");
+const awsAthena = require("aws-sdk/clients/athena");
+const S3 = require("aws-sdk/clients/s3");
 const client_1 = require("./lib/client");
 const request_1 = require("./lib/request");
 __export(require("./lib/client"));
@@ -24,8 +26,8 @@ function createClient(clientConfig, awsConfig) {
         throw new Error('region required');
     }
     aws.config.update(awsConfig);
-    const athena = new aws.Athena({ apiVersion: '2017-05-18' });
-    const s3 = new aws.S3({ apiVersion: '2006-03-01' });
+    const athena = new awsAthena({ apiVersion: '2017-05-18' });
+    const s3 = new S3({ apiVersion: '2006-03-01' });
     const request = new request_1.AthenaRequest(athena, s3);
     return new client_1.AthenaClient(request, clientConfig);
 }

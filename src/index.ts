@@ -1,4 +1,6 @@
 import * as aws from 'aws-sdk'
+import * as awsAthena from 'aws-sdk/clients/athena'
+import * as S3 from 'aws-sdk/clients/s3'
 import {
   AthenaClient,
   AthenaClientConfig,
@@ -40,8 +42,8 @@ export function createClient(
   }
 
   aws.config.update(awsConfig)
-  const athena = new aws.Athena({ apiVersion: '2017-05-18' })
-  const s3 = new aws.S3({ apiVersion: '2006-03-01' })
+  const athena = new awsAthena({ apiVersion: '2017-05-18' })
+  const s3 = new S3({ apiVersion: '2006-03-01' })
   const request = new AthenaRequest(athena, s3)
   return new AthenaClient(request, clientConfig)
 }
