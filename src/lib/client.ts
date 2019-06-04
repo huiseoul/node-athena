@@ -1,4 +1,4 @@
-import { Athena } from 'aws-sdk'
+import { QueryExecution } from 'aws-sdk/clients/athena'
 import * as csv from 'csv-parser'
 import { Transform } from 'stream'
 import { setTimeout } from 'timers'
@@ -7,7 +7,7 @@ import * as util from './util'
 
 export interface AthenaExecutionResult<T> {
   records: T[]
-  queryExecution: Athena.QueryExecution
+  queryExecution: QueryExecution
 }
 
 export interface AthenaExecutionSelect<T> {
@@ -76,13 +76,13 @@ export class AthenaClient {
     if (callback !== undefined) {
       let isEnd = false
       const records: T[] = []
-      let queryExecution: Athena.QueryExecution
+      let queryExecution: QueryExecution
 
       // Callback
       csvTransform.on('data', (record: T) => {
         records.push(record)
       })
-      csvTransform.on('query_end', (q: Athena.QueryExecution) => {
+      csvTransform.on('query_end', (q: QueryExecution) => {
         queryExecution = q
       })
       csvTransform.on('end', (record: T) => {
@@ -106,13 +106,13 @@ export class AthenaClient {
         toPromise: () => {
           return new Promise<AthenaExecutionResult<T>>((resolve, reject) => {
             const records: T[] = []
-            let queryExecution: Athena.QueryExecution
+            let queryExecution: QueryExecution
 
             // Add event listener for promise
             csvTransform.on('data', (record: T) => {
               records.push(record)
             })
-            csvTransform.on('query_end', (q: Athena.QueryExecution) => {
+            csvTransform.on('query_end', (q: QueryExecution) => {
               queryExecution = q
             })
             csvTransform.on('end', (record: T) => {
@@ -147,7 +147,7 @@ export class AthenaClient {
       )
     }
 
-    let queryExecution: Athena.QueryExecution
+    let queryExecution: QueryExecution
 
     // Athena
     try {

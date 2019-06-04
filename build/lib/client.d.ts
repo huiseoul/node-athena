@@ -1,9 +1,9 @@
-import { Athena } from 'aws-sdk';
+import { QueryExecution } from 'aws-sdk/clients/athena';
 import { Transform } from 'stream';
 import { AthenaRequest, AthenaRequestConfig } from './request';
 export interface AthenaExecutionResult<T> {
     records: T[];
-    queryExecution: Athena.QueryExecution;
+    queryExecution: QueryExecution;
 }
 export interface AthenaExecutionSelect<T> {
     toPromise: () => Promise<AthenaExecutionResult<T>>;

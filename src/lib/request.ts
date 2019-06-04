@@ -1,5 +1,4 @@
-import { Athena, AWSError } from 'aws-sdk'
-import { ResultConfiguration } from 'aws-sdk/clients/athena'
+import { AWSError } from 'aws-sdk'
 import { Readable } from 'stream'
 
 export interface AthenaRequestConfig {
